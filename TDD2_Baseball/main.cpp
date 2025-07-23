@@ -1,5 +1,4 @@
 #include "gmock/gmock.h"
-#include "baseball_test.cpp"
 
 using namespace testing;
 
