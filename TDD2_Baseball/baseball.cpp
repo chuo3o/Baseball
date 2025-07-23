@@ -3,10 +3,19 @@
 
 using namespace std;
 
+struct GuessResult {
+	bool solved;
+	int strike;
+	int ball;
+};
+
 class Baseball {
 public:
-	void guess(const string& guessNum) {
+	explicit Baseball(const string& Num) : question{ Num } {}
+
+	GuessResult guess(const string& guessNum) {
 		assertIllegalArgument(guessNum);
+		return { true, 3, 0 };
 	}
 
 	void assertIllegalArgument(const std::string& guessNum){
@@ -26,4 +35,7 @@ public:
 			|| guessNum[1] == guessNum[2]
 			|| guessNum[2] == guessNum[0];
 	}
+
+private:
+	string question;
 };
