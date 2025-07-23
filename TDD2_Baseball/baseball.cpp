@@ -11,17 +11,33 @@ struct GuessResult {
 
 class Baseball {
 public:
+	const int GAME_LENGTH = 3;
 	explicit Baseball(const string& Num) : question{ Num } {}
 
 	GuessResult guess(const string& guessNum) {
 		assertIllegalArgument(guessNum);
-		if(guessNum == question)
-			return { true, 3, 0 };
-		return { false, 0, 0 };
+		return playGame(guessNum);
+	}
+
+	const GuessResult& playGame(const std::string& guessNum)
+	{
+		GuessResult result = {};
+		for (int i = 0; i < GAME_LENGTH; i++) {
+			if (guessNum[i] == question[i]) result.strike++;
+		}
+		for (int i = 0; i < GAME_LENGTH; i++) {
+			for (int j = 0; j < GAME_LENGTH; j++) {
+				if (i == j) continue;
+				if (guessNum[i] == question[j]) result.ball++;
+			}
+		}
+		if (result.strike == 3)
+			result.solved = true;
+		return result;
 	}
 
 	void assertIllegalArgument(const std::string& guessNum){
-		if (guessNum.length() != 3)
+		if (guessNum.length() != GAME_LENGTH)
 			throw length_error("Must be three letters.\n");
 
 		for (char ch : guessNum) {
