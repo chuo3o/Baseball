@@ -19,24 +19,34 @@ public:
 		return playGame(guessNum);
 	}
 
-	const GuessResult& playGame(const std::string& guessNum)
-	{
+	const GuessResult& playGame(const std::string& guessNum) {
 		GuessResult result = {};
-		for (int i = 0; i < GAME_LENGTH; i++) {
-			if (guessNum[i] == question[i]) result.strike++;
-		}
-		for (int i = 0; i < GAME_LENGTH; i++) {
-			for (int j = 0; j < GAME_LENGTH; j++) {
-				if (i == j) continue;
-				if (guessNum[i] == question[j]) result.ball++;
-			}
-		}
-		if (result.strike == 3)
-			result.solved = true;
+		result.strike = countStrike(guessNum);
+		result.ball = countBall(guessNum);
+		result.solved = (result.strike == GAME_LENGTH);
 		return result;
 	}
 
-	void assertIllegalArgument(const std::string& guessNum){
+	int countStrike(const std::string& guessNum) {
+		int strike = 0;
+		for (int i = 0; i < GAME_LENGTH; i++) {
+			if (guessNum[i] == question[i]) strike++;
+		}
+		return strike;
+	}
+
+	int countBall(const std::string& guessNum) {
+		int ball = 0;
+		for (int i = 0; i < GAME_LENGTH; i++) {
+			for (int j = 0; j < GAME_LENGTH; j++) {
+				if (i == j) continue;
+				if (guessNum[i] == question[j]) ball++;
+			}
+		}
+		return ball;
+	}
+
+	void assertIllegalArgument(const std::string& guessNum) {
 		if (guessNum.length() != GAME_LENGTH)
 			throw length_error("Must be three letters.\n");
 
@@ -48,7 +58,7 @@ public:
 			throw invalid_argument("Must not have the same number.\n");
 	}
 
-	bool isDuplicatedNumber(const std::string& guessNum){
+	bool isDuplicatedNumber(const std::string& guessNum) {
 		return guessNum[0] == guessNum[1]
 			|| guessNum[1] == guessNum[2]
 			|| guessNum[2] == guessNum[0];
