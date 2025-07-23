@@ -15,7 +15,7 @@ public:
 			cout << e.what();
 		}
 	}
-	Baseball game;
+	Baseball game{ "123" };
 };
 
 TEST_F(BaseballFixture, TryGameTest) {
@@ -29,7 +29,6 @@ TEST_F(BaseballFixture, ThrowExceptionWhenInvalidCases) {
 }
 
 TEST_F(BaseballFixture, ReturnSolvedResultIfMatchedNumber) {
-	Baseball game("123");
 	GuessResult result = game.guess("123");
 
 	EXPECT_TRUE(result.solved);
