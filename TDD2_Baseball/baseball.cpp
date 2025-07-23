@@ -13,5 +13,9 @@ public:
 			if (ch < '0' || ch > '9')
 				throw invalid_argument("Must be number.\n");
 		}
+		if(guessNum[0] == guessNum[1] 
+			|| guessNum[1] == guessNum[2]
+			|| guessNum[2] == guessNum[0])
+			throw invalid_argument("Must not have the same number.\n");
 	}
 };
